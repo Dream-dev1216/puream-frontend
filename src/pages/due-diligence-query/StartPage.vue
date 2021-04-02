@@ -70,6 +70,11 @@
               </div>
             </td>
           </template>
+          <template #item.upload="{ value }">
+            <a v-if="value" :href="`${value}`" target="_blank">
+              See Attachment
+            </a>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
