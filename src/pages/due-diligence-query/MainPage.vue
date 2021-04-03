@@ -36,11 +36,11 @@
                   >
                     <v-radio
                       label="Yes"
-                      value="yes"
+                      value="1"
                     ></v-radio>
                     <v-radio
                       label="No"
-                      value="no"
+                      value="0"
                     ></v-radio>
                   </v-radio-group>
                 </template>
@@ -151,7 +151,7 @@ export default {
     _saveAndReturnLatern() {
       if (this.$refs.form.validate()) {
         const formData = new FormData()
-
+        
         formData.append('subject_id', this.$route.params.id)
         formData.append('yes_no', this.form.yes_no)
         formData.append('upload', this.form.fileInput)
