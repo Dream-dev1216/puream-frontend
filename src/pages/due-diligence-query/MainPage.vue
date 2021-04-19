@@ -118,20 +118,30 @@ export default {
     ...mapState('subjects', ['loadingSubject', 'submittingAnswer', 'subject']),
 
     visibleUpload() {
-      console.log(this.subject)
-      if (this.subject.yes_no === 0 && this.subject.upload)
-        return true
-      if ((this.form.yes_no === 1 && this.subject.truthy === 1 || this.subject.truthy === 0 && this.form.yes_no === 0) && this.subject.upload)
-        return true
+      if (this.subject.upload)
+      {
+        if (this.subject.yes_no === 0)
+          return true
+        if (this.subject.truthy === 0)
+          return true
+        if (this.form.yes_no === '1')
+          return true
+      }
 
       return false
+
     },
 
     visibleComment() {
-      if (this.subject.yes_no === 0 && this.subject.comment)
-        return true
-      if ((this.form.yes_no === 0 && this.subject.truthy === 1 || this.subject.truthy === 0 && this.form.yes_no === 0) && this.subject.comment)
-        return true
+      if (this.subject.comment)
+      {
+        if (this.subject.yes_no === 0)
+          return true
+        if (this.subject.truthy === 0)
+          return true
+        if (this.form.yes_no === '1')
+          return true
+      }
 
       return false
     },
