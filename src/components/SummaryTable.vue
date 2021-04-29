@@ -24,7 +24,9 @@
           </template>
 
           <template v-slot:item.upload="{ item }">
-            <a :href="item.upload">{{item.upload}}</a>
+            <p v-for="(link, index) in item.upload" :key="index">
+              <a :href="link">{{link}}</a>
+            </p>
           </template>
         </v-data-table>
       </v-card-text>
@@ -65,7 +67,7 @@ export default {
 
   mounted() {
   },
-
+  
   methods: {
     categoryName(category_id) {
       const answer = this.answers.find((a) => a.category_id === category_id)

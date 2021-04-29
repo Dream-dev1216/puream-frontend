@@ -67,9 +67,9 @@ const module = {
       commit
     }, payload) {
       try {
-        const response = await subjectAPI.submitAnswer(payload)
+        // const response = await subjectAPI.submitAnswer(payload)
 
-        commit('SET_SUBJECT', response.data.subject)
+        // commit('SET_SUBJECT', response.data.subject)
 
         router.push({
           name: 'start-query'

@@ -33,7 +33,6 @@
           :items="answers"
           :loading="loadingAnswers && loadingTopics"
           group-by="category_id"
-          show-group-by
           hide-default-footer
           :items-per-page="40"
         >
@@ -120,12 +119,12 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'Subject', align: 'left', value: 'subject_name', sortable: false },
-        { text: 'Yes/No', align: 'left', value: 'yes_no', sortable: false },
-        { text: 'Upload', align: 'left', value: 'upload', sortable: false },
-        { text: 'Comment', align: 'left', value: 'comment', sortable: false },
-        { text: 'Category', align: 'left', value: 'category_id', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false }
+        { text: '', align: 'left', value: 'subject_name', sortable: false },
+        { text: '', align: 'left', value: 'yes_no', sortable: false },
+        { text: '', align: 'left', value: 'upload', sortable: false },
+        { text: '', align: 'left', value: 'comment', sortable: false },
+        { text: '', align: 'left', value: 'category_id', sortable: false },
+        { text: '', value: 'actions', sortable: false }
       ],
       expanded: [],
       dataReady: false

@@ -52,7 +52,8 @@
                     placeholder="Upload a file"
                     outlined
                     dense
-                    :rules="[$rules.required]"
+                    :multiple="multipleUpload"
+                    :rules="ruleUpload"
                   >
                   </v-file-input>
                 </template>
@@ -64,7 +65,7 @@
                     placeholder="Comment"
                     outlined
                     dense
-                    :rules="[$rules.required]"
+                    :rules="ruleComment"
                   >
                   </v-textarea>
                 </template>
@@ -124,12 +125,25 @@ export default {
           return true
         if (this.subject.truthy === 0)
           return true
-        if (this.form.yes_no === '1')
+        if (this.form.yes_no === this.triggerValue)
           return true
       }
 
       return false
 
+    },
+
+    ruleUpload() {
+      const rule = []
+
+      if (this.subject.upload_required)
+        rule.push(this.$rules.required)
+
+      return rule
+    },
+
+    multipleUpload() {
+      return this.subject.multipleupload ? true : false
     },
 
     visibleComment() {
@@ -139,11 +153,24 @@ export default {
           return true
         if (this.subject.truthy === 0)
           return true
-        if (this.form.yes_no === '1')
+        if (this.form.yes_no === this.triggerValue)
           return true
       }
 
       return false
+    },
+
+    ruleComment() {
+      const rule = []
+
+      if (this.subject.comment_required)
+        rule.push(this.$rules.required)
+
+      return rule
+    },
+
+    triggerValue() {
+      return this.subject.trigger_yes ? '1' : '0'
     },
 
     progressed() {
@@ -160,16 +187,17 @@ export default {
   methods: {
     ...mapActions('subjects', ['getSubject', 'submitAnswer', 'saveAndReturnLatern']),
     _saveAndReturnLatern() {
-      if (this.$refs.form.validate()) {
-        const formData = new FormData()
+      // if (this.$refs.form.validate()) {
+      //   const formData = new FormData()
 
-        formData.append('subject_id', this.$route.params.id)
-        formData.append('yes_no', this.form.yes_no)
-        formData.append('upload', this.form.fileInput)
-        formData.append('comment', this.form.comment)
+      //   formData.append('subject_id', this.$route.params.id)
+      //   formData.append('yes_no', this.form.yes_no)
+      //   formData.append('upload', this.form.fileInput)
+      //   formData.append('comment', this.form.comment)
 
-        this.saveAndReturnLatern(formData)
-      }
+      //   this.saveAndReturnLatern(formData)
+      // }
+      this.saveAndReturnLatern()
     },
     next() {
       if (this.$refs.form.validate()) {
@@ -177,7 +205,13 @@ export default {
 
         formData.append('subject_id', this.$route.params.id)
         formData.append('yes_no', this.form.yes_no)
-        formData.append('upload', this.form.fileInput)
+        if (this.form.fileInput && this.form.fileInput.length)
+        {
+          formData.append('uploadcnt', this.form.fileInput.length)
+          this.form.fileInput.forEach((file, index) => {
+            formData.append('upload' + index, file)
+          })
+        }
         formData.append('comment', this.form.comment)
 
         this.submitAnswer(formData)
