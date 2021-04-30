@@ -117,7 +117,6 @@ export default {
     ...mapActions({
       updateUserAccount: 'users/updateUserAccount',
       createCompany: 'customers/createCompany',
-      updateCompany: 'customers/updateCompany'
     }),
     async submit() {
       if (this.$refs.accountForm.validate()) {

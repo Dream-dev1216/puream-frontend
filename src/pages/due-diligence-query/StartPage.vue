@@ -21,7 +21,7 @@
             color="success"
             :loading="loadingStartPoint"
             :disabled="loadingStartPoint"
-            @click="submitAll"
+            @click="onSubmitClicked"
           >
             Submit
           </v-btn>
@@ -101,13 +101,46 @@
             color="success"
             :loading="loadingStartPoint"
             :disabled="loadingStartPoint"
-            @click="submitAll"
+            @click="onSubmitClicked"
           >
             Submit
           </v-btn>
         </div>
       </v-col>
     </v-row>
+    <v-dialog
+      v-model="completeDialog"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="grey lighten-2">
+          Confirm
+        </v-card-title>
+
+        <v-card-text>
+          <div class="text-center py-2">Are you sure?</div>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="completeDialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            @click="submitAll"
+          >
+            Complete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -127,7 +160,8 @@ export default {
         { text: '', value: 'actions', sortable: false }
       ],
       expanded: [],
-      dataReady: false
+      dataReady: false,
+      completeDialog: false
     }
   },
   computed: {
@@ -171,10 +205,15 @@ export default {
       this.$router.push('due-diligence-query/' + item.subject_id)
     },
     submitAll() {
+      this.completeDialog = false
       this.submitCompany(this.user.company_id)
     },
     ...mapActions('subjects', ['getTopics', 'getStartingPoint', 'getAnswers']),
-    ...mapActions('companies', ['getCompany', 'submitCompany'])
+    ...mapActions('companies', ['getCompany', 'submitCompany']),
+
+    onSubmitClicked(item) {
+      this.completeDialog = true
+    }
   }
 }
 </script>

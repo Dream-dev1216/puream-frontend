@@ -5,7 +5,7 @@
         color="success"
         :loading="loadingStartPoint"
         :disabled="!myCompany || myCompany.is_completed || loadingStartPoint"
-        @click="submitAll"
+        @click="onSubmitClicked"
       >
         Submit
       </v-btn>
@@ -25,6 +25,40 @@
       :answers="answers"
     >
     </summary-table>
+
+    <v-dialog
+      v-model="completeDialog"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="grey lighten-2">
+          Confirm
+        </v-card-title>
+
+        <v-card-text>
+          <div class="text-center py-2">Are you sure?</div>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="completeDialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            @click="submitAll"
+          >
+            Complete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -42,7 +76,8 @@ export default {
       headers: [
         { text: 'Topic', value: 'name' },
         { text: 'Actions', sortable: false, align: 'right', value: 'action' }
-      ]
+      ],
+      completeDialog: false
     }
   },
 
@@ -69,7 +104,12 @@ export default {
     ...mapActions('companies', ['submitCompany', 'getCompany']),
 
     submitAll() {
+      this.completeDialog = false
       this.submitCompany(this.user.company_id)
+    },
+
+    onSubmitClicked(item) {
+      this.completeDialog = true
     }
   }
 }
