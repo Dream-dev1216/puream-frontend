@@ -78,7 +78,7 @@
 
           <template v-slot:item.actions="{ item }">
             <v-btn
-              v-if="!myCompany.is_completed"
+              v-if="myCompany && !myCompany.is_completed"
               small
               outlined
               fab

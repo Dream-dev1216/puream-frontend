@@ -62,8 +62,10 @@ const module = {
 
         commit('auth/SET_AUTH_COMPANY', response.data.data, { root: true })
 
-        dispatch('app/showSuccess', response.data.message, { root: true })
+        dispatch('app/showSuccess', 'Due diligence successfully submitted', { root: true })
       } catch (error) {
+        dispatch('app/showError', 'Due diligence Submition failed.', { root: true })
+
         console.log(error)
       }
     },
@@ -78,12 +80,14 @@ const module = {
       }
     },
 
-    async submitCompany({ commit, state }, id) {
+    async submitCompany({ commit, state, dispatch }, id) {
       try {
         const response = await companyAPI.submitCompany(id)
 
         commit('SET_COMPANY', { ...state.company, is_completed: 1 })
+        dispatch('app/showSuccess', 'Due diligence successfully submitted.', { root: true })
       } catch (error) {
+        dispatch('app/showError', 'Due diligence Submition failed.', { root: true })
         throw new Error(error)
       }
     }
